@@ -1,4 +1,4 @@
-package com.mknishad.githubusers
+package com.mknishad.githubusers.presentation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -11,7 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.mknishad.githubusers.ui.theme.GitHubUsersTheme
+import com.mknishad.githubusers.presentation.ui.theme.GitHubUsersTheme
 
 class MainActivity : ComponentActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
