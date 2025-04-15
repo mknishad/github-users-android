@@ -1,5 +1,6 @@
 package com.mknishad.githubusers.data.remote
 
+import com.mknishad.githubusers.data.remote.dto.RepositoryDto
 import com.mknishad.githubusers.data.remote.dto.SearchResultDto
 import com.mknishad.githubusers.data.remote.dto.UserDetailsDto
 import retrofit2.Call
@@ -10,8 +11,11 @@ import retrofit2.http.Query
 interface GitHubApi {
 
   @GET("/search/users")
-  suspend fun searchUser(@Query("q") query: String): List<SearchResultDto>
+  suspend fun searchUsers(@Query("q") query: String): SearchResultDto
 
-  @GET("/users/{login}")
-  fun getUserDetails(@Path("login") login: String?): Call<UserDetailsDto>
+  @GET("/users/{username}")
+  suspend fun getUserDetails(@Path("username") username: String?): UserDetailsDto
+
+  @GET("/users/{username}/repos")
+  suspend fun getUserRepositories(@Path("username") username: String?): List<RepositoryDto>
 }

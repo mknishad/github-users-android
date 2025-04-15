@@ -1,6 +1,7 @@
 package com.mknishad.githubusers.data.remote.dto
 
 data class User(
+    val name: String,
     val avatar_url: String,
     val events_url: String,
     val followers_url: String,
