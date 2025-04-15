@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
   alias(libs.plugins.android.application)
   alias(libs.plugins.kotlin.android)
@@ -15,7 +17,10 @@ android {
     targetSdk = 35
     versionCode = 1
     versionName = "1.0"
-
+    val p = Properties()
+    p.load(project.rootProject.file("key.properties").reader())
+    val apiKey: String = p.getProperty("API_KEY")
+    buildConfigField("String", "API_KEY", apiKey)
     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
   }
 
@@ -63,7 +68,7 @@ dependencies {
   ksp(libs.hilt.compiler)
   implementation(libs.hilt.navigation.compose)
   implementation(libs.retrofit2.retrofit)
-  implementation(libs.retrofit2.converter.json)
+  implementation(libs.retrofit2.converter.gson)
   implementation(libs.okhttp3.okhttp)
   implementation(libs.okhttp3.logging.interceptor)
 }
