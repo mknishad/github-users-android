@@ -74,4 +74,5 @@ dependencies {
   implementation(libs.okhttp3.logging.interceptor)
   implementation(libs.coil.compose)
   implementation(libs.coil.okhttp)
+  implementation(libs.androidx.browser)
 }

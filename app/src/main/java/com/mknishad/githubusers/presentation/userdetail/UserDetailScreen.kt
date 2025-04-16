@@ -1,5 +1,8 @@
 package com.mknishad.githubusers.presentation.userdetail
 
+import android.content.Context
+import android.widget.Toast
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -28,6 +31,7 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
@@ -40,6 +44,7 @@ fun UserDetailScreen(
   modifier: Modifier = Modifier, viewModel: UserDetailViewModel = hiltViewModel()
 ) {
   val state = viewModel.state.value
+  val context = LocalContext.current
 
   Box(modifier = modifier.fillMaxSize()) {
     state.user.let { user ->
@@ -50,8 +55,7 @@ fun UserDetailScreen(
       ) {
         item {
           AsyncImage(
-            model = ImageRequest.Builder(LocalContext.current).data(user?.avatar_url)
-              .crossfade(true).build(),
+            model = ImageRequest.Builder(context).data(user?.avatar_url).crossfade(true).build(),
             placeholder = painterResource(R.drawable.ic_launcher_background),
             contentDescription = stringResource(R.string.user_icon),
             contentScale = ContentScale.Crop,
@@ -95,9 +99,17 @@ fun UserDetailScreen(
         }
         items(state.repositories) { repository ->
           RepositoryListItem(
-            repository = repository,
-            onItemClick = {},
-            modifier = Modifier
+            repository = repository, onItemClick = {
+              if (repository.homepage != null && repository.homepage.isNotBlank()) {
+                openTab(context, repository.homepage)
+              } else {
+                Toast.makeText(
+                  context,
+                  context.getString(R.string.no_website_found_for_this_repository),
+                  Toast.LENGTH_SHORT
+                ).show()
+              }
+            }, modifier = Modifier
               .fillMaxWidth()
               .padding(horizontal = 16.dp, vertical = 8.dp)
           )
@@ -119,4 +131,12 @@ fun UserDetailScreen(
       }
     }
   }
+}
+
+// open url in custom chrome tabs
+fun openTab(context: Context, url: String) {
+  val packageName = "com.android.chrome"    // package name of chrome application.
+  val customBuilder = CustomTabsIntent.Builder().build()
+  customBuilder.intent.setPackage(packageName)
+  customBuilder.launchUrl(context, url.toUri())
 }

@@ -5,4 +5,5 @@ data class Repository(
   val language: String?,
   val stargazersCount: Int?,
   val description: String?,
+  val homepage: String?,
 )
