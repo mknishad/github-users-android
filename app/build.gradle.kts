@@ -5,6 +5,7 @@ plugins {
   alias(libs.plugins.kotlin.android)
   alias(libs.plugins.kotlin.ksp)
   alias(libs.plugins.kotlin.compose)
+  alias(libs.plugins.hilt)
 }
 
 android {
@@ -71,4 +72,6 @@ dependencies {
   implementation(libs.retrofit2.converter.gson)
   implementation(libs.okhttp3.okhttp)
   implementation(libs.okhttp3.logging.interceptor)
+  implementation(libs.coil.compose)
+  implementation(libs.coil.okhttp)
 }
