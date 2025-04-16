@@ -16,9 +16,9 @@ class GetUserDetailUseCase @Inject constructor(private val repository: GitHubRep
       val result = repository.getUserByUsername(username)
       emit(Resource.Success(result))
     } catch (e: HttpException) {
-      emit(Resource.Error(e.localizedMessage ?: "An unexpected error occurred"))
+      emit(Resource.Error(message = e.localizedMessage ?: "An unexpected error occurred"))
     } catch (_: IOException) {
-      emit(Resource.Error("Couldn't reach server. Please check internet connection"))
+      emit(Resource.Error(message = "Couldn't reach server. Please check internet connection"))
     }
   }
 }
