@@ -1,4 +1,8 @@
 <resources>
   <string name="app_name">GitHub Users</string>
   <string name="user_icon">User icon</string>
+  <string name="star_icon">Star icon</string>
+  <string name="followers">%1$d Followers</string>
+  <string name="following">%1$d Following</string>
+  <string name="repositories">Repositories</string>
 </resources>

@@ -20,6 +20,6 @@ class GitHubRepositoryImpl @Inject constructor(private val api: GitHubApi) : Git
   }
 
   override suspend fun getUserRepositories(username: String): List<Repository> {
-    return api.getUserRepositories(username).map { it.toRepository() }
+    return api.getUserRepositories(username).filter { it.fork == false }.map { it.toRepository() }
   }
 }

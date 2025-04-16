@@ -1,6 +1,5 @@
 package com.mknishad.githubusers.presentation.userlist
 
-import android.R.attr.text
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -32,7 +31,7 @@ fun UserListScreen(
         UserListItem(
           user = user,
           onItemClick = {
-            //navController.navigate(Screen.UserDetailScreen.route + "/${user.login}")
+            navController.navigate(Screen.UserDetailScreen.route + "/${user.login}")
           }
         )
       }

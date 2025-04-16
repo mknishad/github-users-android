@@ -18,7 +18,7 @@ class UserListViewModel @Inject constructor(private val gitHubUseCases: GitHubUs
   val state: State<UserListState> = _state
 
   init {
-    getUsers("m")
+    getUsers("mknishad")
   }
 
   private fun getUsers(username: String) {

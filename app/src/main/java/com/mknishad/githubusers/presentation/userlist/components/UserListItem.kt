@@ -49,8 +49,7 @@ fun UserListItem(user: User, onItemClick: (User) -> Unit, modifier: Modifier = M
       contentScale = ContentScale.Crop,
       modifier = Modifier
         .size(50.dp)
-        .clip(CircleShape)
-        .background(Color.Cyan),
+        .clip(CircleShape),
     )
     Spacer(modifier = Modifier.width(16.dp))
     Text(

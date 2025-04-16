@@ -15,7 +15,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.mknishad.githubusers.common.Constants
 import com.mknishad.githubusers.presentation.ui.theme.GitHubUsersTheme
+import com.mknishad.githubusers.presentation.userdetail.UserDetailScreen
 import com.mknishad.githubusers.presentation.userlist.UserListScreen
 import com.mknishad.githubusers.presentation.util.Screen
 import dagger.hilt.android.AndroidEntryPoint
@@ -39,11 +41,11 @@ class MainActivity : ComponentActivity() {
             ) {
               UserListScreen(navController)
             }
-            /*composable(
-              route = Screen.UserDetailScreen.route + "/{login}"
+            composable(
+              route = Screen.UserDetailScreen.route + "/{${Constants.PARAM_USERNAME}}"
             ) {
-
-            }*/
+              UserDetailScreen()
+            }
           }
         }
       }
