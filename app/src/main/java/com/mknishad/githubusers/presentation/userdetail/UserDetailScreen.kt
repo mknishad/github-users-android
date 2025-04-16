@@ -22,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -51,11 +52,10 @@ fun UserDetailScreen(
           AsyncImage(
             model = ImageRequest.Builder(LocalContext.current).data(user?.avatar_url)
               .crossfade(true).build(),
-            //placeholder = painterResource(R.drawable.ic_launcher_background),
+            placeholder = painterResource(R.drawable.ic_launcher_background),
             contentDescription = stringResource(R.string.user_icon),
             contentScale = ContentScale.Crop,
             modifier = Modifier
-              .padding(top = 16.dp)
               .size(100.dp)
               .clip(CircleShape)
           )
@@ -65,12 +65,12 @@ fun UserDetailScreen(
             style = MaterialTheme.typography.bodySmall,
             fontStyle = FontStyle.Italic
           )
-          Spacer(modifier = Modifier.height(8.dp))
+          Spacer(modifier = Modifier.height(16.dp))
           Text(
             text = user?.name ?: "",
             style = MaterialTheme.typography.headlineSmall,
           )
-          Spacer(modifier = Modifier.height(8.dp))
+          Spacer(modifier = Modifier.height(16.dp))
           Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
             Text(
               text = stringResource(R.string.followers, user?.followers ?: 0),
@@ -86,7 +86,7 @@ fun UserDetailScreen(
           Spacer(modifier = Modifier.height(16.dp))
           Text(
             text = stringResource(R.string.repositories),
-            style = MaterialTheme.typography.headlineSmall,
+            style = MaterialTheme.typography.bodyLarge,
             modifier = Modifier
               .fillMaxWidth()
               .padding(horizontal = 16.dp)
@@ -101,7 +101,6 @@ fun UserDetailScreen(
               .fillMaxWidth()
               .padding(horizontal = 16.dp, vertical = 8.dp)
           )
-          //HorizontalDivider()
         }
       }
       if (state.error.isNotBlank()) {

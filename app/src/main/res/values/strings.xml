@@ -5,4 +5,6 @@
   <string name="followers">%1$d Followers</string>
   <string name="following">%1$d Following</string>
   <string name="repositories">Repositories</string>
+  <string name="enter_github_username_to_search">Enter github username to search</string>
+  <string name="clear">Clear</string>
 </resources>

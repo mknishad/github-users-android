@@ -53,7 +53,10 @@ fun RepositoryListItem(
           modifier = Modifier.size(16.dp)
         )
         Spacer(Modifier.width(4.dp))
-        Text(text = repository.stargazersCount.toString())
+        Text(
+          text = repository.stargazersCount.toString(),
+          style = MaterialTheme.typography.bodySmall
+        )
         Spacer(Modifier.width(16.dp))
         repository.language?.let {
           Card(
@@ -62,7 +65,7 @@ fun RepositoryListItem(
             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondary)
           ) {}
           Spacer(Modifier.width(4.dp))
-          Text(text = it)
+          Text(text = it, style = MaterialTheme.typography.bodySmall)
         }
       }
     }
