@@ -39,6 +39,14 @@ import coil3.request.crossfade
 import com.mknishad.githubusers.R
 import com.mknishad.githubusers.presentation.userdetail.components.RepositoryListItem
 
+/**
+ * Composable function that displays the details of a selected user, including their profile
+ * information and a list of their repositories.
+ *
+ * @param modifier Modifier to be applied to the composable.
+ * @param viewModel [UserDetailViewModel] instance, obtained via Hilt dependency injection,
+ * providing the user details and repositories data.
+ */
 @Composable
 fun UserDetailScreen(
   modifier: Modifier = Modifier, viewModel: UserDetailViewModel = hiltViewModel()

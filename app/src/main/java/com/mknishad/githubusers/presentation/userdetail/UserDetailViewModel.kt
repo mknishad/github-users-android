@@ -13,6 +13,17 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
+/**
+ * ViewModel responsible for managing and providing user detail information.
+ *
+ * This ViewModel interacts with the [GitHubUseCases] to fetch user details and repositories
+ * based on the provided username. It maintains the state of the user detail screen,
+ * including loading status, user data, repositories, and potential errors.  The username
+ * is retrieved from the [SavedStateHandle], allowing persistence across process death.
+ *
+ * @property gitHubUseCases The use cases for interacting with the GitHub API.
+ * @property savedStateHandle Handle for accessing saved state data, used to retrieve the username.
+ */
 @HiltViewModel
 class UserDetailViewModel @Inject constructor(
   private val gitHubUseCases: GitHubUseCases, savedStateHandle: SavedStateHandle

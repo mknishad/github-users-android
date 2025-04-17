@@ -11,6 +11,15 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
+/**
+ * ViewModel responsible for managing the state and interactions related to the user list screen.
+ *
+ * This ViewModel utilizes Hilt for dependency injection and interacts with [GitHubUseCases] to
+ * fetch and display a list of users based on a search query. It maintains the current state of the
+ * user list, including loading indicators, search results, and potential error messages.
+ *
+ * @property gitHubUseCases The use cases for interacting with the GitHub API. Injected via Hilt.
+ */
 @HiltViewModel
 class UserListViewModel @Inject constructor(private val gitHubUseCases: GitHubUseCases) :
   ViewModel() {

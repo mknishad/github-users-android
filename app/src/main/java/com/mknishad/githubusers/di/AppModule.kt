@@ -19,8 +19,32 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
-import kotlin.jvm.java
 
+/**
+ * AppModule
+ *
+ * This Hilt module provides application-wide dependencies, particularly related to networking
+ * and the GitHub API integration.  It ensures that single instances of key components like
+ * the OkHttpClient, Retrofit instance, and API repository are available throughout the app's lifecycle.
+ *
+ * Key functionalities provided:
+ *  - **API Key Interception:** Injects the API key as a Bearer token in the Authorization header for all requests.
+ *  - **HTTP Logging:** Enables logging of network requests and responses for debugging purposes.
+ *  - **OkHttpClient Configuration:** Creates and configures the OkHttpClient with interceptors for authorization and logging.
+ *  - **GitHub API Interface:** Builds the Retrofit client for interacting with the GitHub API, using Gson for JSON parsing and the configured OkHttpClient.
+ *  - **GitHub Repository Implementation:** Provides the implementation of the GitHubRepository interface, utilizing the GitHub API service.
+ *  - **GitHub Use Cases:**  Organizes and provides access to different use cases related to GitHub functionality (e.g., searching users, fetching user details).
+ *
+ *  Dependencies Provided:
+ *   - `Interceptor` (authInterceptor): An interceptor to add the Authorization header.
+ *   - `HttpLoggingInterceptor`: An interceptor to log HTTP request and response details.
+ *   - `OkHttpClient`: A configured OkHttpClient for making network requests.
+ *   - `GitHubApi`:  The Retrofit interface for the GitHub API.
+ *   - `GitHubRepository`:  The implementation of the GitHub data repository.
+ *   - `GitHubUseCases`: A container holding various GitHub-related use cases.
+ *
+ *  Scope: All provided dependencies are scoped to the SingletonComponent, ensuring a single instance exists throughout the application.
+ */
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {

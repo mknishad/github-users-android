@@ -10,6 +10,14 @@ import com.mknishad.githubusers.domain.model.UserDetail
 import com.mknishad.githubusers.domain.repository.GitHubRepository
 import javax.inject.Inject
 
+/**
+ * Implementation of the [GitHubRepository] interface, responsible for interacting with the GitHub API.
+ *
+ * This class utilizes the [GitHubApi] to fetch data related to users and repositories.  It handles
+ * the conversion of API responses to domain models and applies any necessary filtering.
+ *
+ * @property api The [GitHubApi] instance used for making API calls.  Injected via Dagger.
+ */
 class GitHubRepositoryImpl @Inject constructor(private val api: GitHubApi) : GitHubRepository {
   override suspend fun searchUsers(query: String): SearchResult {
     return api.searchUsers(query).toSearchResult()

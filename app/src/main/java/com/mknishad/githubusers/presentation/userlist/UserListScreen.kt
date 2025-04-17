@@ -27,6 +27,12 @@ import com.mknishad.githubusers.R
 import com.mknishad.githubusers.presentation.userlist.components.UserListItem
 import com.mknishad.githubusers.presentation.util.Screen
 
+/**
+ * Composable function that displays a list of users fetched from GitHub based on a search query.
+ *
+ * @param navController NavController used for navigating to the user detail screen.
+ * @param viewModel UserListViewModel instance (provided by Hilt) that manages the state and data fetching for the user list.
+ */
 @Composable
 fun UserListScreen(
   navController: NavController, viewModel: UserListViewModel = hiltViewModel()

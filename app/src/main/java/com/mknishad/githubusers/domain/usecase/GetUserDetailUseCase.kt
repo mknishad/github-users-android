@@ -9,6 +9,17 @@ import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
 
+/**
+ * Use case for retrieving detailed information about a specific GitHub user.
+ *
+ * This class encapsulates the logic for fetching user details from the GitHub repository
+ * and handling potential errors such as network issues or HTTP exceptions.  It returns
+ * the result as a Flow emitting [Resource] objects to represent the different states:
+ * loading, success, and error.
+ *
+ * @property repository The [GitHubRepository] used to interact with the GitHub API.
+ * @constructor Injects the [GitHubRepository] dependency.
+ */
 class GetUserDetailUseCase @Inject constructor(private val repository: GitHubRepository) {
   operator fun invoke(username: String): Flow<Resource<UserDetail>> = flow {
     try {

@@ -25,6 +25,12 @@ import com.mknishad.githubusers.presentation.userlist.UserListScreen
 import com.mknishad.githubusers.presentation.util.Screen
 import dagger.hilt.android.AndroidEntryPoint
 
+/**
+ * The main activity of the application, serving as the entry point for the user interface.
+ *
+ * This activity sets up the navigation graph and hosts the composable content. It uses Jetpack Compose
+ * for the UI and manages navigation between the user list and user detail screens.
+ */
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
   @OptIn(ExperimentalMaterial3Api::class)

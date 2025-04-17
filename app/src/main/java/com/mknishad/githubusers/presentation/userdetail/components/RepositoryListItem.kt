@@ -25,6 +25,13 @@ import androidx.compose.ui.unit.dp
 import com.mknishad.githubusers.R
 import com.mknishad.githubusers.domain.model.Repository
 
+/**
+ * Composable function that displays a list item for a GitHub repository.
+ *
+ * @param repository The [Repository] object containing the repository's data.
+ * @param onItemClick Callback function triggered when the list item is clicked.  It receives the [Repository] object as a parameter.
+ * @param modifier Optional [Modifier] to apply to the list item.
+ */
 @Composable
 fun RepositoryListItem(
   repository: Repository, onItemClick: (Repository) -> Unit, modifier: Modifier = Modifier

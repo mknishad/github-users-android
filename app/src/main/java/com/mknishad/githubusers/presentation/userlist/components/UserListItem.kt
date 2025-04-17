@@ -26,6 +26,13 @@ import coil3.request.crossfade
 import com.mknishad.githubusers.R
 import com.mknishad.githubusers.data.remote.dto.User
 
+/**
+ * Displays a single user item in a list.
+ *
+ * @param user The user data to display.
+ * @param onItemClick Callback function to be invoked when the item is clicked.  It receives the [User] object as a parameter.
+ * @param modifier Modifier for styling and layout customization. Defaults to [Modifier].
+ */
 @Composable
 fun UserListItem(user: User, onItemClick: (User) -> Unit, modifier: Modifier = Modifier) {
   Card(modifier = modifier, onClick = { onItemClick(user) }) {

@@ -9,6 +9,16 @@ import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
 
+/**
+ * Use case for retrieving a list of repositories for a given GitHub user.
+ *
+ * This class encapsulates the logic for fetching a user's repositories from the GitHub API
+ * using the provided [GitHubRepository]. It handles potential errors during the API call, such as
+ * network issues or HTTP errors, and emits a [Flow] of [Resource] objects representing the
+ * different states of the operation (Loading, Success, Error).
+ *
+ * @param repository The [GitHubRepository] instance used to access the GitHub API.  Injected via Hilt.
+ */
 class GetUserRepositoriesUseCase @Inject constructor(private val repository: GitHubRepository) {
   operator fun invoke(username: String): Flow<Resource<List<Repository>>> = flow {
     try {

@@ -9,6 +9,17 @@ import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
 
+/**
+ * Use case for searching users on GitHub.
+ *
+ * This class encapsulates the logic for searching users based on a query string using the provided
+ * [GitHubRepository]. It handles network calls, error handling (HttpException and IOException),
+ * and emits the search results as a [Flow] of [Resource] objects, representing different states
+ * (Loading, Success, Error).
+ *
+ * @property repository The [GitHubRepository] instance used to interact with the GitHub API.
+ * @constructor Injects the [GitHubRepository] dependency.
+ */
 class SearchUsersUseCase @Inject constructor(private val repository: GitHubRepository) {
   operator fun invoke(query: String) : Flow<Resource<SearchResult>> = flow {
     try {
