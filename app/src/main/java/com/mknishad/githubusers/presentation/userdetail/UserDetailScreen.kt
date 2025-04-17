@@ -56,7 +56,7 @@ fun UserDetailScreen(
         item {
           AsyncImage(
             model = ImageRequest.Builder(context).data(user?.avatar_url).crossfade(true).build(),
-            placeholder = painterResource(R.drawable.ic_launcher_background),
+            placeholder = painterResource(R.drawable.ic_placeholder),
             contentDescription = stringResource(R.string.user_icon),
             contentScale = ContentScale.Crop,
             modifier = Modifier
