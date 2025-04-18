@@ -16,9 +16,16 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -33,6 +40,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
@@ -47,95 +55,114 @@ import com.mknishad.githubusers.presentation.userdetail.components.RepositoryLis
  * @param viewModel [UserDetailViewModel] instance, obtained via Hilt dependency injection,
  * providing the user details and repositories data.
  */
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun UserDetailScreen(
-  modifier: Modifier = Modifier, viewModel: UserDetailViewModel = hiltViewModel()
+  navController: NavController,
+  modifier: Modifier = Modifier,
+  viewModel: UserDetailViewModel = hiltViewModel()
 ) {
   val state = viewModel.state.value
   val context = LocalContext.current
 
-  Box(modifier = modifier.fillMaxSize()) {
-    state.user.let { user ->
-      LazyColumn(
-        modifier = Modifier.fillMaxSize(),
-        contentPadding = PaddingValues(horizontal = 0.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-      ) {
-        item {
-          AsyncImage(
-            model = ImageRequest.Builder(context).data(user?.avatar_url).crossfade(true).build(),
-            placeholder = painterResource(R.drawable.ic_placeholder),
-            contentDescription = stringResource(R.string.user_icon),
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-              .size(100.dp)
-              .clip(CircleShape)
-          )
-          Spacer(modifier = Modifier.height(24.dp))
-          Text(
-            text = user?.login ?: "",
-            style = MaterialTheme.typography.bodySmall,
-            fontStyle = FontStyle.Italic
-          )
-          Spacer(modifier = Modifier.height(16.dp))
-          Text(
-            text = user?.name ?: "",
-            style = MaterialTheme.typography.headlineSmall,
-          )
-          Spacer(modifier = Modifier.height(16.dp))
-          Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
-            Text(
-              text = stringResource(R.string.followers, user?.followers ?: 0),
-              style = MaterialTheme.typography.bodyMedium,
-              fontWeight = FontWeight.Bold
+  Scaffold(
+    topBar = {
+      TopAppBar(title = { Text(text = "") }, navigationIcon = {
+        IconButton(onClick = { navController.navigateUp() }) {
+          Icon(Icons.AutoMirrored.Filled.ArrowBack, stringResource(R.string.go_back))
+        }
+      })
+    }, modifier = Modifier.fillMaxSize()
+  ) { paddingValues ->
+    Box(
+      modifier = modifier
+        .fillMaxSize()
+        .padding(paddingValues)
+    ) {
+      state.user.let { user ->
+        LazyColumn(
+          modifier = Modifier.fillMaxSize(),
+          contentPadding = PaddingValues(horizontal = 0.dp),
+          horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+          item {
+            AsyncImage(
+              model = ImageRequest.Builder(context).data(user?.avatar_url).crossfade(true).build(),
+              placeholder = painterResource(R.drawable.ic_placeholder),
+              contentDescription = stringResource(R.string.user_icon),
+              contentScale = ContentScale.Crop,
+              modifier = Modifier
+                .size(100.dp)
+                .clip(CircleShape)
             )
+            Spacer(modifier = Modifier.height(24.dp))
             Text(
-              text = stringResource(R.string.following, user?.following ?: 0),
-              style = MaterialTheme.typography.bodyMedium,
-              fontWeight = FontWeight.Bold
+              text = user?.login ?: "",
+              style = MaterialTheme.typography.bodySmall,
+              fontStyle = FontStyle.Italic
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            Text(
+              text = user?.name ?: "",
+              style = MaterialTheme.typography.headlineSmall,
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            Row(
+              modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
+              Text(
+                text = stringResource(R.string.followers, user?.followers ?: 0),
+                style = MaterialTheme.typography.bodyMedium,
+                fontWeight = FontWeight.Bold
+              )
+              Text(
+                text = stringResource(R.string.following, user?.following ?: 0),
+                style = MaterialTheme.typography.bodyMedium,
+                fontWeight = FontWeight.Bold
+              )
+            }
+            Spacer(modifier = Modifier.height(16.dp))
+            Text(
+              text = stringResource(R.string.repositories),
+              style = MaterialTheme.typography.bodyLarge,
+              modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp)
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+          }
+          items(state.repositories) { repository ->
+            RepositoryListItem(
+              repository = repository, onItemClick = {
+                if (repository.homepage != null && repository.homepage.isNotBlank()) {
+                  openTab(context, repository.homepage)
+                } else {
+                  Toast.makeText(
+                    context,
+                    context.getString(R.string.no_website_found_for_this_repository),
+                    Toast.LENGTH_SHORT
+                  ).show()
+                }
+              }, modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 8.dp)
             )
           }
-          Spacer(modifier = Modifier.height(16.dp))
+        }
+        if (state.error.isNotBlank()) {
           Text(
-            text = stringResource(R.string.repositories),
-            style = MaterialTheme.typography.bodyLarge,
+            text = state.error,
+            color = MaterialTheme.colorScheme.error,
+            textAlign = TextAlign.Center,
             modifier = Modifier
               .fillMaxWidth()
-              .padding(horizontal = 16.dp)
-          )
-          Spacer(modifier = Modifier.height(8.dp))
-        }
-        items(state.repositories) { repository ->
-          RepositoryListItem(
-            repository = repository, onItemClick = {
-              if (repository.homepage != null && repository.homepage.isNotBlank()) {
-                openTab(context, repository.homepage)
-              } else {
-                Toast.makeText(
-                  context,
-                  context.getString(R.string.no_website_found_for_this_repository),
-                  Toast.LENGTH_SHORT
-                ).show()
-              }
-            }, modifier = Modifier
-              .fillMaxWidth()
-              .padding(horizontal = 16.dp, vertical = 8.dp)
+              .padding(horizontal = 20.dp)
+              .align(Alignment.Center)
           )
         }
-      }
-      if (state.error.isNotBlank()) {
-        Text(
-          text = state.error,
-          color = MaterialTheme.colorScheme.error,
-          textAlign = TextAlign.Center,
-          modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 20.dp)
-            .align(Alignment.Center)
-        )
-      }
-      if (state.isLoading) {
-        CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+        if (state.isLoading) {
+          CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+        }
       }
     }
   }

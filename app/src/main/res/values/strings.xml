@@ -5,7 +5,8 @@
   <string name="followers">%1$d Followers</string>
   <string name="following">%1$d Following</string>
   <string name="repositories">Repositories</string>
-  <string name="enter_github_username_to_search">Enter github username to search</string>
+  <string name="type_to_search_github_users">Type to search github users</string>
   <string name="clear">Clear</string>
   <string name="no_website_found_for_this_repository">No website found for this repository!</string>
+  <string name="go_back">Go back</string>
 </resources>
