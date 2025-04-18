@@ -41,7 +41,7 @@ You need to create a `key.properties` file in the **root directory** of the proj
 
 ## Usage
 
-[This Android application allows you to view GitHub users and their repositories. Here's a quick guide: The app finds GitHub users by username and opens to a list of users showing their avatar and username. Tapping a user allows you to see their details and repositories. To view a repository's web page if it's available, simply tap on it.]
+This Android application allows you to view GitHub users and their repositories. Here's a quick guide: The app finds GitHub users by username and opens to a list of users showing their avatar and username. Tapping a user allows you to see their details and repositories. To view a repository's web page if it's available, simply tap on it.
 
 ## Built With
 
