@@ -1,0 +1,12 @@
+<resources>
+  <string name="app_name">GitHub Users</string>
+  <string name="user_icon">User icon</string>
+  <string name="star_icon">Star icon</string>
+  <string name="followers">%1$d Followers</string>
+  <string name="following">%1$d Following</string>
+  <string name="repositories">Repositories</string>
+  <string name="type_to_search_github_users">Type to search github users</string>
+  <string name="clear">Clear</string>
+  <string name="no_website_found_for_this_repository">No website found for this repository!</string>
+  <string name="go_back">Go back</string>
+</resources>
