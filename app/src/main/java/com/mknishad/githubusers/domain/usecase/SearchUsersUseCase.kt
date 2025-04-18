@@ -7,7 +7,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import java.io.IOException
-import javax.inject.Inject
 
 /**
  * Use case for searching users on GitHub.
@@ -20,7 +19,7 @@ import javax.inject.Inject
  * @property repository The [GitHubRepository] instance used to interact with the GitHub API.
  * @constructor Injects the [GitHubRepository] dependency.
  */
-class SearchUsersUseCase @Inject constructor(private val repository: GitHubRepository) {
+class SearchUsersUseCase(private val repository: GitHubRepository) {
   operator fun invoke(query: String) : Flow<Resource<SearchResult>> = flow {
     try {
       emit(Resource.Loading())

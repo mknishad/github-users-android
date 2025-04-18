@@ -7,7 +7,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import java.io.IOException
-import javax.inject.Inject
 
 /**
  * Use case for retrieving a list of repositories for a given GitHub user.
@@ -19,7 +18,7 @@ import javax.inject.Inject
  *
  * @param repository The [GitHubRepository] instance used to access the GitHub API.  Injected via Hilt.
  */
-class GetUserRepositoriesUseCase @Inject constructor(private val repository: GitHubRepository) {
+class GetUserRepositoriesUseCase(private val repository: GitHubRepository) {
   operator fun invoke(username: String): Flow<Resource<List<Repository>>> = flow {
     try {
       emit(Resource.Loading())

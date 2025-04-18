@@ -7,7 +7,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import java.io.IOException
-import javax.inject.Inject
 
 /**
  * Use case for retrieving detailed information about a specific GitHub user.
@@ -20,7 +19,7 @@ import javax.inject.Inject
  * @property repository The [GitHubRepository] used to interact with the GitHub API.
  * @constructor Injects the [GitHubRepository] dependency.
  */
-class GetUserDetailUseCase @Inject constructor(private val repository: GitHubRepository) {
+class GetUserDetailUseCase(private val repository: GitHubRepository) {
   operator fun invoke(username: String): Flow<Resource<UserDetail>> = flow {
     try {
       emit(Resource.Loading())
