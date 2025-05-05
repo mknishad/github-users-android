@@ -30,6 +30,18 @@ class UserListViewModel @Inject constructor(private val gitHubUseCases: GitHubUs
   private val _searchText = mutableStateOf("")
   val searchText: State<String> = _searchText
 
+  fun onEvent(event: SearchUserEvent) {
+    when(event) {
+      is SearchUserEvent.EnteredText -> {
+        getUsers(event.value)
+      }
+
+      is SearchUserEvent.ClearedText -> {
+        clearSearchText()
+      }
+    }
+  }
+
   fun getUsers(username: String) {
     _searchText.value = username
     if (searchText.value.isNotBlank()) {

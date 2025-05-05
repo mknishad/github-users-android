@@ -57,14 +57,15 @@ fun UserListScreen(
       Column {
         OutlinedTextField(
           value = searchText,
-          onValueChange = { viewModel.getUsers(it) },
+          onValueChange = { viewModel.onEvent(SearchUserEvent.EnteredText(it)) },
           label = { Text(stringResource(R.string.type_to_search_github_users)) },
           trailingIcon = {
             if (searchText.isNotBlank()) {
               Icon(
                 Icons.Default.Clear, stringResource(R.string.clear), modifier = Modifier.clickable {
-                  viewModel.clearSearchText()
-                })
+                  viewModel.onEvent(SearchUserEvent.ClearedText)
+                }
+              )
             }
           },
           modifier = Modifier
