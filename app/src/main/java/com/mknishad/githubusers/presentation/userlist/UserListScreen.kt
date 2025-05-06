@@ -20,6 +20,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.mknishad.githubusers.R
@@ -46,12 +47,14 @@ fun UserListScreen(
   Scaffold(
     topBar = {
       TopAppBar(title = { Text(text = stringResource(R.string.app_name)) })
-    }, modifier = Modifier.fillMaxSize()
+    },
+    modifier = Modifier.fillMaxSize()
   ) { paddingValues ->
     Box(
       modifier = Modifier
         .fillMaxSize()
-        .padding(paddingValues)
+        .padding(paddingValues),
+      contentAlignment = Alignment.Center
     ) {
       Column {
         /*OutlinedTextField(
@@ -70,7 +73,9 @@ fun UserListScreen(
             .padding(horizontal = 16.dp, vertical = 8.dp)
             .fillMaxWidth()
         )*/
-        LazyColumn(modifier = Modifier.fillMaxSize()) {
+        LazyColumn(
+          modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally
+        ) {
           items(userPagingItems.itemCount) { index ->
             val userItem = userPagingItems[index]
             if (userItem != null) {
@@ -83,9 +88,17 @@ fun UserListScreen(
               )
             }
           }
+
+          item {
+            if (userPagingItems.loadState.append is LoadState.Loading) {
+              Box(modifier = Modifier.padding(16.dp)) {
+                CircularProgressIndicator()
+              }
+            }
+          }
         }
       }
-      if (state.error.isNotBlank()) {
+      if (userPagingItems.loadState.refresh is LoadState.Error) {
         Text(
           text = state.error,
           color = MaterialTheme.colorScheme.error,
@@ -96,8 +109,8 @@ fun UserListScreen(
             .align(Alignment.Center)
         )
       }
-      if (state.isLoading) {
-        CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+      if (userPagingItems.loadState.refresh is LoadState.Loading) {
+        CircularProgressIndicator(modifier = Modifier.padding(16.dp))
       }
     }
   }
