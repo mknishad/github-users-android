@@ -43,7 +43,7 @@ fun UserListItem(user: User, onItemClick: (User) -> Unit, modifier: Modifier = M
     ) {
       AsyncImage(
         model = ImageRequest.Builder(LocalContext.current)
-          .data(user.avatar_url)
+          .data(user.avatarUrl)
           .crossfade(true)
           .build(),
         placeholder = painterResource(R.drawable.ic_placeholder),

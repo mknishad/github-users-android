@@ -75,4 +75,6 @@ dependencies {
   implementation(libs.coil.compose)
   implementation(libs.coil.okhttp)
   implementation(libs.androidx.browser)
+  implementation(libs.paging.runtime)
+  implementation(libs.paging.compose)
 }

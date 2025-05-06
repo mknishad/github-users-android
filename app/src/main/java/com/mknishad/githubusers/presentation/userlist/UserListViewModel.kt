@@ -4,11 +4,18 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.mknishad.githubusers.common.Resource
+import com.mknishad.githubusers.data.remote.dto.User
 import com.mknishad.githubusers.domain.usecase.GitHubUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
@@ -30,10 +37,29 @@ class UserListViewModel @Inject constructor(private val gitHubUseCases: GitHubUs
   private val _searchText = mutableStateOf("")
   val searchText: State<String> = _searchText
 
+  private val _userState: MutableStateFlow<PagingData<User>> =
+    MutableStateFlow(value = PagingData.empty())
+  val userState: StateFlow<PagingData<User>> = _userState
+
+  init {
+    viewModelScope.launch {
+      getUsers()
+    }
+  }
+
+  private suspend fun getUsers() {
+    gitHubUseCases.getUsers.invoke()
+      .distinctUntilChanged()
+      .cachedIn(viewModelScope)
+      .collect {
+        _userState.value = it
+      }
+  }
+
   fun onEvent(event: SearchUserEvent) {
-    when(event) {
+    when (event) {
       is SearchUserEvent.EnteredText -> {
-        getUsers(event.value)
+        searchUsers(event.value)
       }
 
       is SearchUserEvent.ClearedText -> {
@@ -42,7 +68,7 @@ class UserListViewModel @Inject constructor(private val gitHubUseCases: GitHubUs
     }
   }
 
-  fun getUsers(username: String) {
+  fun searchUsers(username: String) {
     _searchText.value = username
     if (searchText.value.isNotBlank()) {
       gitHubUseCases.searchUsers(searchText.value).onEach { result ->

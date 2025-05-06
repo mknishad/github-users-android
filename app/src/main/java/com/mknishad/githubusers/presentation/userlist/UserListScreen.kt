@@ -1,20 +1,14 @@
 package com.mknishad.githubusers.presentation.userlist
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -26,7 +20,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.mknishad.githubusers.R
+import com.mknishad.githubusers.data.remote.dto.User
 import com.mknishad.githubusers.presentation.userlist.components.UserListItem
 import com.mknishad.githubusers.presentation.util.Screen
 
@@ -44,6 +41,8 @@ fun UserListScreen(
   val state = viewModel.state.value
   val searchText = viewModel.searchText.value
 
+  val userPagingItems: LazyPagingItems<User> = viewModel.userState.collectAsLazyPagingItems()
+
   Scaffold(
     topBar = {
       TopAppBar(title = { Text(text = stringResource(R.string.app_name)) })
@@ -55,7 +54,7 @@ fun UserListScreen(
         .padding(paddingValues)
     ) {
       Column {
-        OutlinedTextField(
+        /*OutlinedTextField(
           value = searchText,
           onValueChange = { viewModel.onEvent(SearchUserEvent.EnteredText(it)) },
           label = { Text(stringResource(R.string.type_to_search_github_users)) },
@@ -64,23 +63,25 @@ fun UserListScreen(
               Icon(
                 Icons.Default.Clear, stringResource(R.string.clear), modifier = Modifier.clickable {
                   viewModel.onEvent(SearchUserEvent.ClearedText)
-                }
-              )
+                })
             }
           },
           modifier = Modifier
             .padding(horizontal = 16.dp, vertical = 8.dp)
             .fillMaxWidth()
-        )
+        )*/
         LazyColumn(modifier = Modifier.fillMaxSize()) {
-          items(state.users) { user ->
-            UserListItem(
-              user = user, onItemClick = {
-                navController.navigate(Screen.UserDetailScreen.route + "/${user.login}")
-              }, modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 8.dp)
-            )
+          items(userPagingItems.itemCount) { index ->
+            val userItem = userPagingItems[index]
+            if (userItem != null) {
+              UserListItem(
+                user = userItem, onItemClick = {
+                  navController.navigate(Screen.UserDetailScreen.route + "/${userItem.login}")
+                }, modifier = Modifier
+                  .fillMaxWidth()
+                  .padding(horizontal = 16.dp, vertical = 8.dp)
+              )
+            }
           }
         }
       }

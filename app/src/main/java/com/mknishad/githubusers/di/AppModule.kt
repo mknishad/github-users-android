@@ -7,6 +7,7 @@ import com.mknishad.githubusers.data.repository.GitHubRepositoryImpl
 import com.mknishad.githubusers.domain.repository.GitHubRepository
 import com.mknishad.githubusers.domain.usecase.GetUserDetailUseCase
 import com.mknishad.githubusers.domain.usecase.GetUserRepositoriesUseCase
+import com.mknishad.githubusers.domain.usecase.GetUsersUseCase
 import com.mknishad.githubusers.domain.usecase.GitHubUseCases
 import com.mknishad.githubusers.domain.usecase.SearchUsersUseCase
 import dagger.Module
@@ -82,12 +83,14 @@ object AppModule {
 
   @Provides
   @Singleton
-  fun provideGitHubRepository(api: GitHubApi): GitHubRepository = GitHubRepositoryImpl(api)
+  fun provideGitHubRepository(api: GitHubApi): GitHubRepository =
+    GitHubRepositoryImpl(api)
 
   @Provides
   @Singleton
   fun provideGitHubUseCases(repository: GitHubRepository): GitHubUseCases {
     return GitHubUseCases(
+      getUsers = GetUsersUseCase(repository),
       searchUsers = SearchUsersUseCase(repository),
       getUserDetail = GetUserDetailUseCase(repository),
       getUserRepositories = GetUserRepositoriesUseCase(repository)

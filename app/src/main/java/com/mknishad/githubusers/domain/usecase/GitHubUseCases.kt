@@ -8,6 +8,7 @@ package com.mknishad.githubusers.domain.usecase
  * @property getUserRepositories The use case for retrieving a list of repositories owned by a specific GitHub user.
  */
 data class GitHubUseCases(
+  val getUsers: GetUsersUseCase,
   val searchUsers: SearchUsersUseCase,
   val getUserDetail: GetUserDetailUseCase,
   val getUserRepositories: GetUserRepositoriesUseCase
